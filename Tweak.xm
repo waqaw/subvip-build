@@ -1,3 +1,5 @@
+#import <Foundation/Foundation.h>
+
 %hook MCUserModel
 - (BOOL)blackVipState { return YES; }
 - (BOOL)hideBlackVip { return YES; }
