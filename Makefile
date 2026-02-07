@@ -6,5 +6,6 @@ include $(THEOS)/makefiles/common.mk
 TWEAK_NAME = subvip
 subvip_FILES = Tweak.xm
 subvip_CFLAGS = -fobjc-arc
+subvip_FRAMEWORKS = Foundation
 
 include $(THEOS_MAKE_PATH)/tweak.mk
