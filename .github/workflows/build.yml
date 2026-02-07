@@ -1,0 +1,31 @@
+name: Build subvip.dylib
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Install Theos
+      run: |
+        bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
+        echo "THEOS=$HOME/theos" >> $GITHUB_ENV
+        echo "PATH=$HOME/theos/bin:$PATH" >> $GITHUB_ENV
+    
+    - name: Build dylib
+      run: |
+        export THEOS=$HOME/theos
+        export PATH=$THEOS/bin:$PATH
+        make clean
+        make
+    
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: subvip.dylib
+        path: .theos/obj/subvip.dylib
