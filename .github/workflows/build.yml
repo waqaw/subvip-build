@@ -5,17 +5,16 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-12
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
     
     - name: Install Theos
       run: |
         bash -c "$(curl -fsSL https://raw.githubusercontent.com/theos/theos/master/bin/install-theos)"
         echo "THEOS=$HOME/theos" >> $GITHUB_ENV
-        echo "PATH=$HOME/theos/bin:$PATH" >> $GITHUB_ENV
     
     - name: Build dylib
       run: |
@@ -23,9 +22,10 @@ jobs:
         export PATH=$THEOS/bin:$PATH
         make clean
         make
+        find .theos -name "*.dylib" -ls
     
     - name: Upload artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v3
       with:
         name: subvip.dylib
-        path: .theos/obj/subvip.dylib
+        path: .theos/obj/**/subvip.dylib
